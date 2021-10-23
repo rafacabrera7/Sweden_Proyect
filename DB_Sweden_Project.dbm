@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.2" last-position="0,0" last-zoom="0.6" max-obj-count="8"
+<dbmodel pgmodeler-ver="0.9.2" last-position="0,132" last-zoom="0.6" max-obj-count="9"
 	 default-schema="public" default-owner="postgres">
 <database name="new_database" is-template="false" allow-conns="true">
 </database>
@@ -53,8 +53,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="company" layer="0" collapse-mode="2" max-obj-count="2">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1060" y="300"/>
-	<column name="id_company" not-null="true">
+	<position x="980" y="260"/>
+	<column name="id_company" not-null="true"
+	 identity-type="ALWAYS">
 		<type name="integer" length="0"/>
 	</column>
 	<column name="name_company" not-null="true">
@@ -68,8 +69,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="main_sector" layer="0" collapse-mode="2" max-obj-count="2">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="80" y="100"/>
-	<column name="id_sector" not-null="true">
+	<position x="160" y="100"/>
+	<column name="id_sector" not-null="true"
+	 identity-type="ALWAYS">
 		<type name="integer" length="0"/>
 	</column>
 	<column name="name_sector" not-null="true">
@@ -87,7 +89,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 custom-color="#00ff7f"
 	 src-table="public.company"
 	 dst-table="public.job_offer"
-	 src-required="true" dst-required="false"/>
+	 src-required="true" dst-required="false">
+	<label ref-type="src-label">
+		<position x="-14.15" y="-12.3518"/>
+	</label>
+</relationship>
 
 <relationship name="sector_has_many_job_offer" type="rel1n" layer="0"
 	 src-col-pattern="{sc}_{st}"
@@ -98,15 +104,16 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 dst-table="public.job_offer"
 	 src-required="false" dst-required="false">
 	<label ref-type="name-label">
-		<position x="-41.9839" y="-2.88566"/>
+		<position x="-21.9839" y="-82.8857"/>
 	</label>
 </relationship>
 
 <table name="customer" layer="0" collapse-mode="2" max-obj-count="4">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="540" y="500"/>
-	<column name="id_customer" not-null="true">
+	<position x="480" y="720"/>
+	<column name="id_customer" not-null="true"
+	 identity-type="ALWAYS">
 		<type name="integer" length="0"/>
 	</column>
 	<column name="name_customer" not-null="true">
@@ -126,7 +133,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="body_message" layer="0" collapse-mode="2" max-obj-count="3">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1020" y="500"/>
+	<position x="940" y="680"/>
 	<column name="body_id" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -138,7 +145,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 
 	<customidxs object-type="column">
-		<object name="id_customer_customer" index="1"/>
+		<object name="id_customer_customer" index="0"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
@@ -146,24 +153,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</customidxs>
 </table>
 
-<relationship name="customer_has_many_body_message" type="rel1n" layer="0"
-	 src-col-pattern="{sc}_{st}"
-	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
-	 src-fk-pattern="{st}_fk"
-	 custom-color="#28c3fa"
-	 src-table="public.customer"
-	 dst-table="public.body_message"
-	 src-required="true" dst-required="false">
-	<label ref-type="dst-label">
-		<position x="-14.15" y="1.8"/>
-	</label>
-</relationship>
-
 <table name="city" layer="0" collapse-mode="2" max-obj-count="2">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1060" y="100"/>
-	<column name="id_city" not-null="true">
+	<position x="980" y="100"/>
+	<column name="id_city" not-null="true"
+	 identity-type="ALWAYS">
 		<type name="smallint" length="0"/>
 	</column>
 	<column name="name_city" not-null="true">
@@ -181,14 +176,22 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 custom-color="#1e7a93"
 	 src-table="public.city"
 	 dst-table="public.job_offer"
-	 src-required="false" dst-required="false"/>
+	 src-required="false" dst-required="false">
+	<label ref-type="src-label">
+		<position x="-14.15" y="-17.7441"/>
+	</label>
+	<label ref-type="name-label">
+		<position x="-4.73783" y="-72.8857"/>
+	</label>
+</relationship>
 
 <table name="subcategory" layer="0" collapse-mode="2" max-obj-count="2">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="60" y="280"/>
-	<column name="id_subcategory" not-null="true">
-		<type name="smallint" length="0"/>
+	<position x="100" y="280"/>
+	<column name="id_subcategory" not-null="true"
+	 identity-type="ALWAYS">
+		<type name="integer" length="0"/>
 	</column>
 	<column name="name_subcategory" not-null="true">
 		<type name="varchar" length="50"/>
@@ -205,6 +208,75 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 custom-color="#cac69f"
 	 src-table="public.subcategory"
 	 dst-table="public.job_offer"
-	 src-required="false" dst-required="false"/>
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="-25.5777" y="7.11434"/>
+	</label>
+</relationship>
+
+<relationship name="customer_has_many_body_message" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#fca30b"
+	 src-table="public.customer"
+	 dst-table="public.body_message"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+/>
+
+<table name="application" layer="0" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="180" y="480"/>
+	<column name="date_app">
+		<type name="date" length="0"/>
+	</column>
+	<constraint name="application_pk" type="pk-constr" table="public.application">
+		</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_customer_customer" index="0"/>
+		<object name="id_job_job_offer" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="customer_fk" index="2"/>
+		<object name="job_offer_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="job_offer_has_many_application" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#c24706"
+	 src-table="public.job_offer"
+	 dst-table="public.application"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+>
+	<label ref-type="src-label">
+		<position x="-14.15" y="-5.77865"/>
+	</label>
+	<label ref-type="name-label">
+		<position x="6.75904" y="19.3143"/>
+	</label>
+</relationship>
+
+<relationship name="customer_has_many_application" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#361a55"
+	 src-table="public.customer"
+	 dst-table="public.application"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+>
+	<label ref-type="name-label">
+		<position x="-59.7995" y="-5.58566"/>
+	</label>
+</relationship>
 
 </dbmodel>
