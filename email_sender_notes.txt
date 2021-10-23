@@ -1,0 +1,1 @@
+https://stackoverflow.com/questions/8381210/how-to-send-a-mail-to-hundreds-of-thousands-recipients-in-python-fast-which-each
