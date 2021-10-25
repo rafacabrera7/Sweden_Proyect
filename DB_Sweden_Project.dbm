@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.2" last-position="0,132" last-zoom="0.6" max-obj-count="9"
+<dbmodel pgmodeler-ver="0.9.2" last-position="0,0" last-zoom="0.6" max-obj-count="9"
 	 default-schema="public" default-owner="postgres">
 <database name="new_database" is-template="false" allow-conns="true">
 </database>
@@ -14,9 +14,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="job_offer" layer="0" collapse-mode="2" max-obj-count="12">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="520" y="100"/>
+	<position x="540" y="100"/>
 	<column name="id_job" not-null="true">
-		<type name="interval" length="0"/>
+		<type name="integer" length="0"/>
 	</column>
 	<column name="name_job" not-null="true">
 		<type name="varchar" length="60"/>
@@ -41,12 +41,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<object name="id_city_city" index="7"/>
 		<object name="id_company_company" index="4"/>
 		<object name="id_sector_main_sector" index="8"/>
+		<object name="id_subcategory_subcategory" index="9"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
 		<object name="city_fk" index="2"/>
 		<object name="company_fk" index="1"/>
 		<object name="main_sector_fk" index="3"/>
+		<object name="subcategory_fk" index="4"/>
 	</customidxs>
 </table>
 

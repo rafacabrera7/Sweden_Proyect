@@ -78,7 +78,7 @@ all_i_need = get_full_info(driver)
 tuplas = []
 for i in all_i_need:
     #extraigo los elementos del diccionario  y los guardo en la lista de tuplas
-    element = (i["id"] , i["title"] , i["entity"] , i["email"] , i["url"] , i["description"])
+    element = (i["id"] , i["title"], i["description"] , i["entity"] , i["email"] , i["url"])
     tuplas.append(element)
     print(element)
 
