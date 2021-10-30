@@ -1,7 +1,8 @@
 import psycopg2
 from connection import Connection
 
-#tuple will be like: (i["id"] , i["title"], i["description"], i["email"] , i["entity"], date_accesed , i["url"], city, main_sector, subcategory)
+#tuple will be like:
+#(id, title, description, email , entity, date_accesed , url, city, main_sector, subcategory)
 
 def insert_company(tuple):
     # this function recieves one tuple and inserts the value corresponding to
@@ -30,18 +31,18 @@ def insert_company(tuple):
         for company in companies_tuples:
             companies_ls.append(company[0])
 
-        if tuple[0] not in companies_ls:
+        if tuple[4] not in companies_ls:
             sql_insert = """INSERT INTO company VALUES (DEFAULT, %s)
                     RETURNING id_company"""
 
-            cursor.execute(sql_insert, (tuple[0],))
-            print("Insertion completed!")
+            cursor.execute(sql_insert, (tuple[4],))
+            print("Company insertion completed!")
 
         else:
             sql_search = """SELECT id_company FROM company
                             WHERE name_company = %s"""
-            cursor.execute(sql_search,(tuple[0],))
-            print("Value already existed")
+            cursor.execute(sql_search,(tuple[4],))
+            print("Companie value already existed")
 
         id_comp = cursor.fetchone()
         id_comp = id_comp[0]
@@ -52,7 +53,7 @@ def insert_company(tuple):
 
     except psycopg2.Error as e:
         print("Error connecting", e)
-        conexion.rollback();
+        con.rollback();
 
     finally:
         cursor.close()
@@ -86,18 +87,18 @@ def insert_city(tuple):
         for city in cities_tuples:
             cities_ls.append(city[0])
 
-        if tuple[0] not in cities_ls:
+        if tuple[7] not in cities_ls:
             sql_insert = """INSERT INTO city VALUES (DEFAULT, %s)
                     RETURNING id_city"""
 
-            cursor.execute(sql_insert, (tuple[0],))
-            print("Insertion completed!")
+            cursor.execute(sql_insert, (tuple[7],))
+            print("City insertion completed!")
 
         else:
             sql_search = """SELECT id_city FROM city
                             WHERE name_city = %s"""
-            cursor.execute(sql_search,(tuple[0],))
-            print("Value already existed")
+            cursor.execute(sql_search,(tuple[7],))
+            print("City value already existed")
 
         id_comp = cursor.fetchone()
         id_comp = id_comp[0]
@@ -108,7 +109,7 @@ def insert_city(tuple):
 
     except psycopg2.Error as e:
         print("Error connecting", e)
-        conexion.rollback();
+        con.rollback();
 
     finally:
         cursor.close()
@@ -122,6 +123,8 @@ def insert_sector(tuple):
     # id to be used later.
     # in case the sector has already been insert, it searches for its id
     # and returns it.
+    if tuple[8]==None:
+        return None
     try:
         con = psycopg2.connect(user = "postgres",
                                password = "Cabrera05",
@@ -142,18 +145,18 @@ def insert_sector(tuple):
         for sector in sectors_tuples:
             sectors_ls.append(sector[0])
 
-        if tuple[0] not in sectors_ls:
+        if tuple[8] not in sectors_ls:
             sql_insert = """INSERT INTO main_sector VALUES (DEFAULT, %s)
                     RETURNING id_sector"""
 
-            cursor.execute(sql_insert, (tuple[0],))
-            print("Insertion completed!")
+            cursor.execute(sql_insert, (tuple[8],))
+            print("Sector insertion completed!")
 
         else:
             sql_search = """SELECT id_sector FROM main_sector
                             WHERE name_sector = %s"""
-            cursor.execute(sql_search,(tuple[0],))
-            print("Value already existed")
+            cursor.execute(sql_search,(tuple[8],))
+            print("Sector value already existed")
 
         id_comp = cursor.fetchone()
         id_comp = id_comp[0]
@@ -164,7 +167,7 @@ def insert_sector(tuple):
 
     except psycopg2.Error as e:
         print("Error connecting", e)
-        conexion.rollback();
+        con.rollback();
 
     finally:
         cursor.close()
@@ -178,6 +181,9 @@ def insert_subcategory(tuple):
     # id to be used later.
     # in case the subcategory has already been insert, it searches for its id
     # and returns it.
+    if tuple[9]==None:
+        return None
+
     try:
         con = psycopg2.connect(user = "postgres",
                                password = "Cabrera05",
@@ -198,18 +204,18 @@ def insert_subcategory(tuple):
         for subcategory in subcategories_tuples:
             subcategories_ls.append(subcategory[0])
 
-        if tuple[0] not in subcategories_ls:
+        if tuple[9] not in subcategories_ls:
             sql_insert = """INSERT INTO subcategory VALUES (DEFAULT, %s)
                     RETURNING id_subcategory"""
 
-            cursor.execute(sql_insert, (tuple[0],))
-            print("Insertion completed!")
+            cursor.execute(sql_insert, (tuple[9],))
+            print("Subcategory insertion completed!")
 
         else:
             sql_search = """SELECT id_subcategory FROM subcategory
                             WHERE name_subcategory = %s"""
-            cursor.execute(sql_search,(tuple[0],))
-            print("Value already existed")
+            cursor.execute(sql_search,(tuple[9],))
+            print("Subcategory value already existed")
 
         id_comp = cursor.fetchone()
         id_comp = id_comp[0]
@@ -220,7 +226,91 @@ def insert_subcategory(tuple):
 
     except psycopg2.Error as e:
         print("Error connecting", e)
-        conexion.rollback();
+        con.rollback();
+
+    finally:
+        cursor.close()
+        con.close()
+        print("Conection closed")
+
+def insert_job_offer(tuple):
+    # this function recieves one tuple and inserts the value corresponding to
+    # name_job_offer in the table job_offer
+    # since id_job_offer should be automatically generated, it returns that
+    # id to be used later.
+    # in case the job_offer has already been insert, it searches for its id
+    # and returns it.
+    #tuple will be like:
+    #(id, title, description, email , entity, date_accesed , url, city, main_sector, subcategory)
+
+
+    try:
+        con = psycopg2.connect(user = "postgres",
+                               password = "Cabrera05",
+                               database = "Sweden",
+                               host = "localhost",
+                               port = "5432")
+        print("Conexión exitosa!")
+
+        con.autocommit = False
+
+        cursor = con.cursor()
+
+        id_company = insert_company(tuple)
+        id_city = insert_city(tuple)
+        id_main_sector = insert_sector(tuple)
+        id_subcategory = insert_subcategory(tuple)
+        id_job_tuple = int(tuple[0])
+
+        sql_check = """SELECT id_job FROM job_offer"""
+        cursor.execute(sql_check)
+        job_offers_tuples = cursor.fetchall()
+
+        job_offers_ls = []
+        for job_offer in job_offers_tuples:
+            job_offers_ls.append(job_offer[0])
+
+
+        if id_job_tuple in job_offers_ls:
+            sql_search = """SELECT * FROM job_offer
+                            WHERE id_job = %s"""
+            cursor.execute(sql_search,(id_job_tuple,))
+            print("Job value already existed")
+
+            row = cursor.fetchone()
+            # print("Row = ", row[0],", ", row[1],", ", row[2],", ", row[3],", ", row[4],", ", row[5],", ", row[6],", ", row[7],", ", row[8],", ", row[9])
+            # print("Tuple = ", id_job_tuple,", ", tuple[1],", ", tuple[2],", ", tuple[3],", ", tuple[4],", ", tuple[5],", ", tuple[6],", ", tuple[7],", ", tuple[8],", ", tuple[9])
+
+            if (row[1]!=tuple[1]) or (row[2]!=tuple[2]) or (row[3]!=tuple[3]) or (row[4]!=id_company) or (row[5]!=tuple[5]) or (row[6]!=tuple[6]) or (row[7]!=id_city) or (row[8]!=id_main_sector) or (row[9]!=id_subcategory):
+                sql_update = """UPDATE job_offer
+                                SET (name_job, description_job, email_job, id_company_company, date_accesed, url_job, id_city_city, id_sector_main_sector, id_subcategory_subcategory) = (%s, %s,%s,%s,%s,%s,%s,%s,%s)
+                                WHERE id_job = %s
+                                RETURNING id_job"""
+                cursor.execute(sql_update, (tuple[1], tuple[2], tuple[3], id_company, tuple[5], tuple[6], id_city, id_main_sector, id_subcategory, id_job_tuple))
+                print("Value updated!")
+
+            sql_search = """SELECT * FROM job_offer
+                            WHERE id_job = %s"""
+            cursor.execute(sql_search,(id_job_tuple,))
+
+
+        else:
+            sql_insert = """INSERT INTO job_offer VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    RETURNING id_job"""
+
+            cursor.execute(sql_insert, (id_job_tuple, tuple[1], tuple[2], tuple[3], id_company, tuple[5], tuple[6], id_city, id_main_sector, id_subcategory))
+            print("Job insertion completed!")
+
+        id_comp = cursor.fetchone()
+        id_comp = id_comp[0]
+
+        con.commit()
+
+        return id_comp
+
+    except psycopg2.Error as e:
+        print("Error connecting", e)
+        con.rollback();
 
     finally:
         cursor.close()
