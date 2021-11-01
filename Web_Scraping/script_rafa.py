@@ -9,6 +9,8 @@ from bs4 import BeautifulSoup
 import sys
 sys.path.append('../Database/')
 from dbSQL import *
+from datetime import date
+
 # orginal url: https://arbetsformedlingen.se/platsbanken/annonser?page=1&p=5:tPox_ie4_X9X&l=2:CifL_Rzy_Mku
 # test: https://arbetsformedlingen.se/platsbanken/annonser?page={j}&q=DISTRIBUTION
 
@@ -33,7 +35,7 @@ def get_all_urls(driver, link):
                 cont += 1
             except:
                 return(todos_los_empleos)
-    # return(todos_los_empleos)
+    return(todos_los_empleos)
 
 #esta funcion recibe una url de una pagina de un trabajo y extrae los datos necesarios
 def get_info_job(driver, job):
@@ -90,7 +92,7 @@ def scrape(raw_link, city, main_sector=None, subcategory=None):
     tuplas = []
     for i in all_i_need:
         #extraigo los elementos del diccionario  y los guardo en la lista de tuplas
-        element = (i["id"] , i["title"], i["description"], i["email"], i["entity"],None, i["url"], city, main_sector, subcategory)
+        element = (i["id"] , i["title"], i["description"], i["email"], i["entity"],date.today(), i["url"], city, main_sector, subcategory)
         tuplas.append(element)
         print(element)
 

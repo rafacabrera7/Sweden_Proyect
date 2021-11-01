@@ -316,3 +316,158 @@ def insert_job_offer(tuple):
         cursor.close()
         con.close()
         print("Conection closed")
+
+def insert_customer(tuple):
+    #tuple recieved is of the form: (name_customer, customer_email, password_customer)
+
+    # this function recieves one tuple and inserts the value corresponding to
+    # name_customer in the table customer
+    # since id_customer should be automatically generated, it returns that
+    # id to be used later.
+    # in case the customer has already been insert, it searches for its id
+    # and returns it.
+    try:
+        con = psycopg2.connect(user = "postgres",
+                               password = "Cabrera05",
+                               database = "Sweden",
+                               host = "localhost",
+                               port = "5432")
+        print("Conexión exitosa!")
+
+        con.autocommit = False
+
+        cursor = con.cursor()
+
+        sql_check = """SELECT name_customer FROM customer"""
+        cursor.execute(sql_check)
+        customers_tuples = cursor.fetchall()
+        customers_ls = []
+
+        for customer in customers_tuples:
+            customers_ls.append(customer[0])
+
+        if tuple[0] not in customers_ls:
+            sql_insert = """INSERT INTO customer VALUES (DEFAULT, %s, %s, %s, %s)
+                    RETURNING id_customer"""
+            f_tuple = tuple +(date.today(),)
+            cursor.execute(sql_insert, (f_tuple))
+            print("customer insertion completed!")
+
+        else:
+            sql_search = """SELECT id_customer FROM customer
+                            WHERE name_customer = %s"""
+            cursor.execute(sql_search,(tuple[0],))
+            print("customer value already existed")
+
+        id_comp = cursor.fetchone()
+        id_comp = id_comp[0]
+
+        con.commit()
+
+        return id_comp
+
+    except psycopg2.Error as e:
+        print("Error connecting", e)
+        con.rollback();
+
+    finally:
+        cursor.close()
+        con.close()
+        print("Conection closed")
+
+def insert_body(tuple):
+    #tuple recieved is of the form: (name_customer, body_message)
+    # this function recieves one tuple and inserts the value corresponding to
+    # name_customer in the table customer
+    # since id_customer should be automatically generated, it returns that
+    # id to be used later.
+    # in case the customer has already been insert, it searches for its id
+    # and returns it.
+    #it returns a tuple with id_customer and id_body
+
+    try:
+        con = psycopg2.connect(user = "postgres",
+                               password = "Cabrera05",
+                               database = "Sweden",
+                               host = "localhost",
+                               port = "5432")
+        print("Conexión exitosa!")
+
+        con.autocommit = False
+
+        cursor = con.cursor()
+
+        sql_search = """SELECT id_customer FROM customer
+                        WHERE name_customer = %s"""
+        cursor.execute(sql_search,(tuple[0],))
+        print("Customer found")
+
+        id_cust = cursor.fetchone()
+        id_cust = id_cust[0]
+
+        f_tuple = (id_cust,)+ (tuple[1],)
+        print("Tuple to insert: ", f_tuple)
+
+        sql_insert = """INSERT INTO body_message VALUES (%s, DEFAULT, %s)
+                        RETURNING *"""
+
+        cursor.execute(sql_insert,f_tuple)
+        id_cust_body = cursor.fetchone()
+        id_cust_body = (id_cust_body[0],id_cust_body[1])
+
+        con.commit()
+        print("Body message inserted")
+        return id_cust_body
+
+    except psycopg2.Error as e:
+        print("Error connecting", e)
+        con.rollback();
+
+    finally:
+        cursor.close()
+        con.close()
+        print("Conection closed")
+
+def insert_application(tuple):
+    #tuple recieved is of the form: (id_customer, id_job_offer)
+    # this function recieves one tuple and inserts the value corresponding to
+    # name_customer in the table customer
+    # since id_customer should be automatically generated, it returns that
+    # id to be used later.
+    # in case the customer has already been insert, it searches for its id
+    # and returns it.
+    #it returns a tuple with id_customer and id_job
+
+    try:
+        con = psycopg2.connect(user = "postgres",
+                               password = "Cabrera05",
+                               database = "Sweden",
+                               host = "localhost",
+                               port = "5432")
+        print("Conexión exitosa!")
+
+        con.autocommit = False
+
+        cursor = con.cursor()
+
+        f_tuple = tuple + (date.today(),)
+
+        sql_insert = """INSERT INTO application VALUES (%s, %s, %s)
+                        RETURNING *"""
+
+        cursor.execute(sql_insert,f_tuple)
+        id_application = cursor.fetchone()
+        id_application = (id_application[0],id_application[1])
+
+        con.commit()
+        print("application inserted")
+        return id_application
+
+    except psycopg2.Error as e:
+        print("Error connecting", e)
+        con.rollback();
+
+    finally:
+        cursor.close()
+        con.close()
+        print("Conection closed")
