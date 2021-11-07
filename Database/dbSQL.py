@@ -1,5 +1,4 @@
 import psycopg2
-from connection import Connection
 
 #tuple will be like:
 #(id, title, description, email , entity, date_accesed , url, city, main_sector, subcategory)
@@ -493,6 +492,8 @@ def get_customer(id_customer):
         cursor.execute(sql_get, (id_customer,))
         row = cursor.fetchone()
 
+        return row
+
         con.commit()
 
 
@@ -505,4 +506,37 @@ def get_customer(id_customer):
         con.close()
         print("Conection closed")
 
-    return row
+def get_body(id_customer, id_body):
+# This function takes the id of a body and return a text with its information
+
+    try:
+        con = psycopg2.connect(user = "postgres",
+                               password = "Cabrera05",
+                               database = "Sweden",
+                               host = "localhost",
+                               port = "5432")
+        print("Conexión exitosa!")
+
+        con.autocommit = False
+
+        cursor = con.cursor()
+
+        sql_get = """SELECT * FROM body_message
+                    WHERE (id_customer_customer = %s) AND (id_body = %s)"""
+
+        cursor.execute(sql_get, (id_customer,id_body))
+        row = cursor.fetchone()
+
+        return row[2]
+
+        con.commit()
+
+
+    except psycopg2.Error as e:
+        print("Error connecting", e)
+        con.rollback();
+
+    finally:
+        cursor.close()
+        con.close()
+        print("Conection closed")

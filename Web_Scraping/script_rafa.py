@@ -1,6 +1,6 @@
 #importo librerías necesarias
 from selenium import webdriver
-from progress.bar import Bar
+# from progress.bar import Bar
 from selenium.webdriver.common.by import By
 import json
 from time import sleep
@@ -14,7 +14,7 @@ from datetime import date
 # orginal url: https://arbetsformedlingen.se/platsbanken/annonser?page=1&p=5:tPox_ie4_X9X&l=2:CifL_Rzy_Mku
 # test: https://arbetsformedlingen.se/platsbanken/annonser?page={j}&q=DISTRIBUTION
 
-#this method gets an url and takes all the jobs in this link
+# this method gets an url and takes all the jobs in this link
 def get_all_urls(driver, link):
     cont = 0
     todos_los_empleos = []
@@ -68,12 +68,12 @@ def get_full_info(driver,raw_url):
     full_data = []
     #funcion que recolecta todas las urls
     urls = get_all_urls(driver,raw_url)
-    bar = Bar("progress" , max=len(urls))
+    # bar = Bar("progress" , max=len(urls))
     #por cada una de las urls extraigo los datos de estas
     for i in urls:
         data = get_info_job(driver, i)
         full_data.append(data)
-        bar.next()
+        # bar.next()
     return(full_data)
 
 

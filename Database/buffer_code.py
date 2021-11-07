@@ -2,9 +2,9 @@ import psycopg2
 from datetime import date
 from dbSQL import *
 
-def get_customer(id_customer):
-# This function takes the id of a customer and return a tuple with its information
-# tuple type: (id, Name, email_address, email_password, date(yy,mm,dd))
+def get_jobs(id_sector, id_subcategory, n_jobs):
+# This function takes the id of a jobs and return a text with its information
+
     try:
         con = psycopg2.connect(user = "postgres",
                                password = "Cabrera05",
@@ -17,11 +17,16 @@ def get_customer(id_customer):
 
         cursor = con.cursor()
 
-        sql_get = """SELECT * FROM customer
-                    WHERE id_customer = %s"""
+        sql_get = """SELECT *
+FROM job_offer LEFT JOIN application
+ON id_job = id_job_job_offer
+"""
+        # MISSING INNER JOIN TO NOT REPEAT APPLYING TO A JOB OFFER.
 
-        cursor.execute(sql_get, (id_customer,))
-        row = cursor.fetchone()
+        cursor.execute(sql_get, (id_sector,id_subcategory, n_jobs))
+        rows = cursor.fetchall()
+
+        return rows
 
         con.commit()
 
@@ -34,5 +39,4 @@ def get_customer(id_customer):
         cursor.close()
         con.close()
         print("Conection closed")
-
-    return row
+get_jobs(4,3,3)
