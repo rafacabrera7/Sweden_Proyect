@@ -101,7 +101,7 @@ def scrape(raw_link, city, main_sector=None, subcategory=None):
     c = 0
     for t in tuplas:
         if t[3]!='None':
-            insert_job_offer(t)
+            # insert_job_offer(t)
             c+=1
     print(c,"job offers inserted")
     #guardo el archivo json que a mi forma de ver es necesario, luego podría iterar
