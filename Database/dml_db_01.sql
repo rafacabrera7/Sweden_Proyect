@@ -2,10 +2,10 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.5
--- Dumped by pg_dump version 12.5
+-- Dumped from database version 12.8 (Ubuntu 12.8-1.pgdg20.04+1)
+-- Dumped by pg_dump version 14.0 (Ubuntu 14.0-1.pgdg20.04+1)
 
--- Started on 2021-11-06 15:48:44
+-- Started on 2021-11-08 10:03:43 -05
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,8 +19,8 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 2884 (class 0 OID 52126)
--- Dependencies: 211
+-- TOC entry 3023 (class 0 OID 16396)
+-- Dependencies: 205
 -- Data for Name: city; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -29,8 +29,8 @@ INSERT INTO public.city OVERRIDING SYSTEM VALUE VALUES (5, 'Bogota');
 
 
 --
--- TOC entry 2877 (class 0 OID 52087)
--- Dependencies: 204
+-- TOC entry 3025 (class 0 OID 16401)
+-- Dependencies: 207
 -- Data for Name: company; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -124,17 +124,18 @@ INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (101, 'Macchina Espres
 
 
 --
--- TOC entry 2881 (class 0 OID 52111)
--- Dependencies: 208
+-- TOC entry 3027 (class 0 OID 16406)
+-- Dependencies: 209
 -- Data for Name: customer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.customer OVERRIDING SYSTEM VALUE VALUES (1, 'Rafa', 'prueba@gmail.com', 'prueba', '2021-11-01');
+INSERT INTO public.customer OVERRIDING SYSTEM VALUE VALUES (1, 'Rafa', 'rafaelcabrerajimenez7@gmail.com', 'prueba', '2021-11-01', 'AKIAUJOMKZ2YWM34O65V', 'BOlS9p5Ui3bv3Klk+ns90jU1pvlBq4RXDYhafqMpzidF');
+INSERT INTO public.customer OVERRIDING SYSTEM VALUE VALUES (3, 'Pepito', 'p1', 'p1', NULL, NULL, NULL);
 
 
 --
--- TOC entry 2879 (class 0 OID 52094)
--- Dependencies: 206
+-- TOC entry 3030 (class 0 OID 16414)
+-- Dependencies: 212
 -- Data for Name: main_sector; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -143,8 +144,8 @@ INSERT INTO public.main_sector OVERRIDING SYSTEM VALUE VALUES (5, 'prueba');
 
 
 --
--- TOC entry 2886 (class 0 OID 52138)
--- Dependencies: 213
+-- TOC entry 3032 (class 0 OID 16419)
+-- Dependencies: 214
 -- Data for Name: subcategory; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -153,14 +154,13 @@ INSERT INTO public.subcategory OVERRIDING SYSTEM VALUE VALUES (4, 'prueba');
 
 
 --
--- TOC entry 2875 (class 0 OID 52080)
--- Dependencies: 202
+-- TOC entry 3029 (class 0 OID 16411)
+-- Dependencies: 211
 -- Data for Name: job_offer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 INSERT INTO public.job_offer VALUES (25229219, 'Restaurangbiträde', 'Restaurangbiträde', 'erdogduab55@gmail.com', 51, NULL, 'https://arbetsformedlingen.se/platsbanken/annonser/25229219', 4, 4, 3);
 INSERT INTO public.job_offer VALUES (25262539, 'Köksbiträde till asiatisk restaurang sökes', 'Köksbiträde', 'info@umichao.se', 15, NULL, 'https://arbetsformedlingen.se/platsbanken/annonser/25262539', 4, 4, 3);
-INSERT INTO public.job_offer VALUES (25262256, 'KÖKSBITRÄDE i MÄRSTA', 'Köksbiträde', 'rodi2017@hotmail.com', 16, NULL, 'https://arbetsformedlingen.se/platsbanken/annonser/25262256', 4, 4, 3);
 INSERT INTO public.job_offer VALUES (25260803, 'Bistro Fiesta söker ny Måltidsbiträde/Restaurangbiträde', 'Restaurangbiträde', 'jobb@restaurangfiesta.se', 17, NULL, 'https://arbetsformedlingen.se/platsbanken/annonser/25260803', 4, 4, 3);
 INSERT INTO public.job_offer VALUES (25257197, 'Vi behöver extrapersonal i disken!', 'Diskare', 'jennie.akerlund@bommersvik.se', 18, NULL, 'https://arbetsformedlingen.se/platsbanken/annonser/25257197', 4, 4, 3);
 INSERT INTO public.job_offer VALUES (25215517, 'Restaurangbiträde Lunch Kale & Crave', 'Restaurangbiträde', 'jobb@kaleandcrave.se', 19, NULL, 'https://arbetsformedlingen.se/platsbanken/annonser/25215517', 4, 4, 3);
@@ -246,32 +246,36 @@ INSERT INTO public.job_offer VALUES (25151876, 'kassör', 'Restaurangbiträde', 
 INSERT INTO public.job_offer VALUES (25118171, 'Runner sökes till våra Arenor', 'Restaurangbiträde', 'personal@fivemoments.se', 98, NULL, 'https://arbetsformedlingen.se/platsbanken/annonser/25118171', 4, 4, 3);
 INSERT INTO public.job_offer VALUES (25118114, 'Vi söker köksbiträden till Galor och event', 'Köksbiträde', 'personal@fivemoments.se', 98, NULL, 'https://arbetsformedlingen.se/platsbanken/annonser/25118114', 4, 4, 3);
 INSERT INTO public.job_offer VALUES (25109289, 'Kock och kassabiträde till Thaikök Järfälla', 'Köksbiträde', 'luknam@thaienjoy.se', 99, NULL, 'https://arbetsformedlingen.se/platsbanken/annonser/25109289', 4, 4, 3);
-INSERT INTO public.job_offer VALUES (123, 'prueba', 'prueba', 'email', 100, '2021-11-01', 'prueba.com', 5, 5, 4);
-INSERT INTO public.job_offer VALUES (25272080, 'Köksbiträde sökes till espressobar i centrala Stockholm', 'Köksbiträde', 'felix@rnventures.se', 101, '2021-11-01', 'https://arbetsformedlingen.se/platsbanken/annonser/25272080', 4, 4, 3);
+INSERT INTO public.job_offer VALUES (25262256, 'KÖKSBITRÄDE i MÄRSTA', 'Köksbiträde', 'rodi2017@hotmail.com', 16, '2021-11-02', 'https://arbetsformedlingen.se/platsbanken/annonser/25262256', 4, 4, 3);
+INSERT INTO public.job_offer VALUES (25272080, 'Köksbiträde sökes till espressobar i centrala Stockholm', 'Köksbiträde', 'felix@rnventures.se', 101, '2021-11-03', 'https://arbetsformedlingen.se/platsbanken/annonser/25272080', 4, 4, 3);
+INSERT INTO public.job_offer VALUES (123, 'prueba', 'prueba', 'prueba_email@12345prueba', 100, '2021-11-01', 'prueba.com', 5, 5, 4);
+INSERT INTO public.job_offer VALUES (124, 'prueba2', 'p2', 'emp2.p2_1234@', 100, NULL, NULL, NULL, 5, 4);
 
 
 --
--- TOC entry 2887 (class 0 OID 52153)
--- Dependencies: 214
+-- TOC entry 3020 (class 0 OID 16385)
+-- Dependencies: 202
 -- Data for Name: application; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 INSERT INTO public.application VALUES (1, 123, '2021-11-01');
+INSERT INTO public.application VALUES (1, 25210339, NULL);
+INSERT INTO public.application VALUES (3, 25210339, NULL);
 
 
 --
--- TOC entry 2882 (class 0 OID 52116)
--- Dependencies: 209
+-- TOC entry 3021 (class 0 OID 16388)
+-- Dependencies: 203
 -- Data for Name: body_message; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.body_message OVERRIDING SYSTEM VALUE VALUES (1, 1, 'Hi, I am Rafel and I would like to apply for a job.');
 INSERT INTO public.body_message OVERRIDING SYSTEM VALUE VALUES (1, 2, 'Hi, I am Rafel and I would like to apply for a job.');
+INSERT INTO public.body_message OVERRIDING SYSTEM VALUE VALUES (1, 1, 'Hi, I am body 1');
 
 
 --
--- TOC entry 2894 (class 0 OID 0)
--- Dependencies: 215
+-- TOC entry 3039 (class 0 OID 0)
+-- Dependencies: 204
 -- Name: body_message_body_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -279,8 +283,8 @@ SELECT pg_catalog.setval('public.body_message_body_id_seq', 2, true);
 
 
 --
--- TOC entry 2895 (class 0 OID 0)
--- Dependencies: 210
+-- TOC entry 3040 (class 0 OID 0)
+-- Dependencies: 206
 -- Name: city_id_city_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -288,8 +292,8 @@ SELECT pg_catalog.setval('public.city_id_city_seq', 5, true);
 
 
 --
--- TOC entry 2896 (class 0 OID 0)
--- Dependencies: 203
+-- TOC entry 3041 (class 0 OID 0)
+-- Dependencies: 208
 -- Name: company_id_company_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -297,17 +301,17 @@ SELECT pg_catalog.setval('public.company_id_company_seq', 101, true);
 
 
 --
--- TOC entry 2897 (class 0 OID 0)
--- Dependencies: 207
+-- TOC entry 3042 (class 0 OID 0)
+-- Dependencies: 210
 -- Name: customer_id_customer_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.customer_id_customer_seq', 1, true);
+SELECT pg_catalog.setval('public.customer_id_customer_seq', 3, true);
 
 
 --
--- TOC entry 2898 (class 0 OID 0)
--- Dependencies: 205
+-- TOC entry 3043 (class 0 OID 0)
+-- Dependencies: 213
 -- Name: main_sector_id_sector_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -315,15 +319,15 @@ SELECT pg_catalog.setval('public.main_sector_id_sector_seq', 5, true);
 
 
 --
--- TOC entry 2899 (class 0 OID 0)
--- Dependencies: 212
+-- TOC entry 3044 (class 0 OID 0)
+-- Dependencies: 215
 -- Name: subcategory_id_subcategory_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.subcategory_id_subcategory_seq', 4, true);
 
 
--- Completed on 2021-11-06 15:48:45
+-- Completed on 2021-11-08 10:03:43 -05
 
 --
 -- PostgreSQL database dump complete
