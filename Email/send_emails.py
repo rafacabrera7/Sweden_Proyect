@@ -88,8 +88,8 @@ def send_Email(id_customer, subject, id_body, file, recipient, id_job,j_descript
         #stmplib docs recommend calling ehlo() before & after starttls()
         server.ehlo()
         server.login(USERNAME_SMTP, PASSWORD_SMTP)
-        # server.sendmail(SENDER, RECIPIENT, msg.as_string())
-        # server.sendmail(SENDER, RECIPIENT, msg.as_string())
+        print("Con with SES donde")
+        server.sendmail(SENDER, RECIPIENT, msg.as_string())
         server.close()
     # Display an error message if something goes wrong.
     except Exception as e:
@@ -99,3 +99,13 @@ def send_Email(id_customer, subject, id_body, file, recipient, id_job,j_descript
         insert_application((id_customer,id_job))
         print ("Email sent!")
         return 1
+
+def send_Emails(id_customer, subject, id_body, file, n_jobs, id_sector, id_subcategory=None):
+    job_list = get_jobs(id_customer, n_jobs, id_sector, id_subcategory)
+    c = 0
+    print("Emails will be be sent: ")
+    for j in job_list:
+        print(j[3])
+        t = send_Email(id_customer, subject, id_body, file, j[3], j[0],j[2], j[4])
+        c+=t
+    print(c,"emails sent")

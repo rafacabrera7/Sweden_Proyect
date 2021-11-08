@@ -560,44 +560,50 @@ def get_jobs(id_customer, n_jobs, id_sector, id_subcategory=None):
 
         if id_subcategory != None:
             sql_get = """
-SELECT *
-FROM (
-SELECT DISTINCT ON (id_job) id_job, name_job, description_job, email_job, id_company_company, id_sector_main_sector, id_subcategory_subcategory,jobs.date_accesed
-FROM (SELECT * FROM job_offer
-	WHERE id_sector_main_sector = %s
-	AND id_subcategory_subcategory = %s
-	) as jobs LEFT JOIN
-	(SELECT * FROM application
-	) as apps
-ON id_job = id_job_job_offer
-WHERE id_customer_customer != %s
-ORDER BY id_job
-) as no_dups
-ORDER BY no_dups.date_accesed DESC
-LIMIT %s
-                        """
+                        SELECT *
+                        FROM (
+                        	SELECT DISTINCT ON (id_job) id_job, name_job, description_job, email_job, id_company_company, id_sector_main_sector, id_subcategory_subcategory,jobs.date_accesed, apps.id_customer_customer
+                        	FROM (SELECT * FROM job_offer
+                        	WHERE id_sector_main_sector = %s
+                        	AND id_subcategory_subcategory = %s
+                        	) as jobs LEFT JOIN
+                        	(SELECT * FROM application
+                        	WHERE id_customer_customer NOT IN (
+                        										SELECT id_customer_customer FROM application
+                        										WHERE id_customer_customer != %s)
+                        	) as apps
+                        ON id_job = id_job_job_offer
+                        ORDER BY id_job
+                        ) as no_dups
+                        WHERE id_customer_customer IS NULL
+                        ORDER BY no_dups.date_accesed DESC
+                        LIMIT %s;
+                    """
+
             cursor.execute(sql_get, (id_sector,id_subcategory, id_customer, n_jobs))
 
         else:
             sql_get = """
                         SELECT *
                         FROM (
-                        SELECT DISTINCT ON (id_job) id_job, name_job, description_job, email_job, id_company_company, id_sector_main_sector, id_subcategory_subcategory,jobs.date_accesed
-                        FROM (SELECT * FROM job_offer
+                        	SELECT DISTINCT ON (id_job) id_job, name_job, description_job, email_job, id_company_company, id_sector_main_sector, id_subcategory_subcategory,jobs.date_accesed, apps.id_customer_customer
+                        	FROM (SELECT * FROM job_offer
                         	WHERE id_sector_main_sector = %s
                         	) as jobs LEFT JOIN
                         	(SELECT * FROM application
+                        	WHERE id_customer_customer NOT IN (
+                        										SELECT id_customer_customer FROM application
+                        										WHERE id_customer_customer != %s)
                         	) as apps
                         ON id_job = id_job_job_offer
-                        WHERE id_customer_customer != %s
                         ORDER BY id_job
                         ) as no_dups
+                        WHERE id_customer_customer IS NULL
                         ORDER BY no_dups.date_accesed DESC
-                        LIMIT %s
+                        LIMIT %s;
                         """
             cursor.execute(sql_get, (id_sector, id_customer, n_jobs))
 
-        # MISSING INNER JOIN TO NOT REPEAT APPLYING TO A JOB OFFER.
 
         rows = cursor.fetchall()
 

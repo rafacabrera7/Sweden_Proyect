@@ -1,10 +1,10 @@
 #importo librerías necesarias
 from selenium import webdriver
-# from progress.bar import Bar
 from selenium.webdriver.common.by import By
 import json
 from time import sleep
 import requests as r
+from tqdm import tqdm
 from bs4 import BeautifulSoup
 import sys
 sys.path.append('../Database/')
@@ -43,9 +43,12 @@ def get_info_job(driver, job):
     driver.get(job)
     #estas partes lo que hacen es extraer los datos de los campos que están en la página
     try:
-        title = driver.find_element(By.XPATH,"/html/body/div[2]/div/div[8]/div/div/main/div[3]/div/div/div[2]/div/div/div/div/div[2]/div[2]/pb-root/div/pb-page-jobb/div/section/div/div[2]/div[2]/section/pb-section-job-quick-info/h1").text
+        try:
+            title = driver.find_element(By.XPATH,"/html/body/div[2]/div/div[8]/div/div/main/div[3]/div/div/div[2]/div/div/div/div/div[2]/div[2]/pb-root/div/pb-page-jobb/div/section/div/div[2]/div[2]/section/pb-section-job-quick-info/h1").text
+        except:
+            title = driver.find_element(By.XPATH,"/html/body/div[1]/div/div[8]/div/div/main/div[3]/div/div/div[2]/div/div/div/div/div[2]/div[2]/pb-root/div/pb-page-jobb/div/section/div/div[2]/div[2]/section/pb-section-job-quick-info/h1").text
     except:
-        title = driver.find_element(By.XPATH,"/html/body/div[1]/div/div[8]/div/div/main/div[3]/div/div/div[2]/div/div/div/div/div[2]/div[2]/pb-root/div/pb-page-jobb/div/section/div/div[2]/div[2]/section/pb-section-job-quick-info/h1").text
+        return None
     empresa = driver.find_element(By.XPATH,"/html/body/div[2]/div/div[8]/div/div/main/div[3]/div/div/div[2]/div/div/div/div/div[2]/div[2]/pb-root/div/pb-page-jobb/div/section/div/div[2]/div[2]/section/pb-section-job-quick-info/h2").text
     description = driver.find_element(By.XPATH,"/html/body/div[2]/div/div[8]/div/div/main/div[3]/div/div/div[2]/div/div/div/div/div[2]/div[2]/pb-root/div/pb-page-jobb/div/section/div/div[2]/div[2]/section/pb-section-job-quick-info/div[1]/h3[1]").text
     #como a veces no existe el correo, si existe lo guardo y si no retorno que no existe
@@ -68,12 +71,11 @@ def get_full_info(driver,raw_url):
     full_data = []
     #funcion que recolecta todas las urls
     urls = get_all_urls(driver,raw_url)
-    # bar = Bar("progress" , max=len(urls))
     #por cada una de las urls extraigo los datos de estas
-    for i in urls:
+    for i in tqdm(urls):
         data = get_info_job(driver, i)
-        full_data.append(data)
-        # bar.next()
+        if data != None:
+            full_data.append(data)
     return(full_data)
 
 
@@ -101,7 +103,7 @@ def scrape(raw_link, city, main_sector=None, subcategory=None):
     c = 0
     for t in tuplas:
         if t[3]!='None':
-            # insert_job_offer(t)
+            insert_job_offer(t)
             c+=1
     print(c,"job offers inserted")
     #guardo el archivo json que a mi forma de ver es necesario, luego podría iterar
