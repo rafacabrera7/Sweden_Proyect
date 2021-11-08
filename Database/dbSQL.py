@@ -1,4 +1,5 @@
 import psycopg2
+from datetime import date
 
 #tuple will be like:
 #(id, title, description, email , entity, date_accesed , url, city, main_sector, subcategory)
@@ -528,6 +529,79 @@ def get_body(id_customer, id_body):
         row = cursor.fetchone()
 
         return row[2]
+
+        con.commit()
+
+
+    except psycopg2.Error as e:
+        print("Error connecting", e)
+        con.rollback();
+
+    finally:
+        cursor.close()
+        con.close()
+        print("Conection closed")
+
+def get_jobs(id_customer, n_jobs, id_sector, id_subcategory=None):
+# This function takes some parameters and returns all the job offers that
+# fill those parameters and returns a list of tuples
+# tuple form: (id_job, name_job, description_job, email_job, id_company, id_sector, id_subcategory,date_accesed)
+    try:
+        con = psycopg2.connect(user = "postgres",
+                               password = "Cabrera05",
+                               database = "Sweden",
+                               host = "localhost",
+                               port = "5432")
+        print("Conexión exitosa!")
+
+        con.autocommit = False
+
+        cursor = con.cursor()
+
+        if id_subcategory != None:
+            sql_get = """
+                        SELECT *
+                        FROM (
+                        SELECT DISTINCT ON (id_job) id_job, name_job, description_job, email_job, id_company_company, id_sector_main_sector, id_subcategory_subcategory,jobs.date_accesed
+                        FROM (SELECT * FROM job_offer
+                        	WHERE id_sector_main_sector = %s
+                        	AND id_subcategory_subcategory = %s
+                        	) as jobs LEFT JOIN
+                        	(SELECT * FROM application
+                        	) as apps
+                        ON id_job = id_job_job_offer
+                        WHERE id_customer_customer != %s
+                        ORDER BY id_job
+                        ) as no_dups
+                        ORDER BY no_dups.date_accesed DESC
+                        LIMIT %s
+                        """
+            cursor.execute(sql_get, (id_sector,id_subcategory, id_customer, n_jobs))
+
+        else:
+            sql_get = """
+                        SELECT *
+                        FROM (
+                        SELECT DISTINCT ON (id_job) id_job, name_job, description_job, email_job, id_company_company, id_sector_main_sector, id_subcategory_subcategory,jobs.date_accesed
+                        FROM (SELECT * FROM job_offer
+                        	WHERE id_sector_main_sector = %s
+                        	) as jobs LEFT JOIN
+                        	(SELECT * FROM application
+                        	) as apps
+                        ON id_job = id_job_job_offer
+                        WHERE id_customer_customer != %s
+                        ORDER BY id_job
+                        ) as no_dups
+                        ORDER BY no_dups.date_accesed DESC
+                        LIMIT %s
+                        """
+            cursor.execute(sql_get, (id_sector, id_customer, n_jobs))
+
+        # MISSING INNER JOIN TO NOT REPEAT APPLYING TO A JOB OFFER.
+
+        rows = cursor.fetchall()
+
+        return rows
 
         con.commit()
 

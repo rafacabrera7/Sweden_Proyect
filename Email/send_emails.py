@@ -6,7 +6,7 @@ import sys
 sys.path.append('../Database/')
 from dbSQL import *
 
-def send_Email(id_customer, subject, id_body, file, recipient):
+def send_Email(id_customer, subject, id_body, file, recipient, id_job,j_description="", id_company=None):
 
     info = get_customer(id_customer)
 
@@ -88,13 +88,14 @@ def send_Email(id_customer, subject, id_body, file, recipient):
         #stmplib docs recommend calling ehlo() before & after starttls()
         server.ehlo()
         server.login(USERNAME_SMTP, PASSWORD_SMTP)
-        server.sendmail(SENDER, RECIPIENT, msg.as_string())
-        server.sendmail(SENDER, RECIPIENT, msg.as_string())
+        # server.sendmail(SENDER, RECIPIENT, msg.as_string())
+        # server.sendmail(SENDER, RECIPIENT, msg.as_string())
         server.close()
     # Display an error message if something goes wrong.
     except Exception as e:
         print ("Error: ", e)
+        return 0
     else:
+        insert_application((id_customer,id_job))
         print ("Email sent!")
-
-send_Email(1,'Test of py function', 1, 0, 'rafael.enriquec@hotmail.com')
+        return 1
