@@ -5,7 +5,7 @@
 -- Dumped from database version 12.8 (Ubuntu 12.8-1.pgdg20.04+1)
 -- Dumped by pg_dump version 14.0 (Ubuntu 14.0-1.pgdg20.04+1)
 
--- Started on 2021-11-08 10:03:15 -05
+-- Started on 2021-11-09 12:54:58 -05
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -204,6 +204,36 @@ ALTER TABLE public.main_sector ALTER COLUMN id_sector ADD GENERATED ALWAYS AS ID
 
 
 --
+-- TOC entry 216 (class 1259 OID 24577)
+-- Name: resume; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.resume (
+    id_customer_customer integer NOT NULL,
+    id_cv integer NOT NULL,
+    name_cv character varying(40) NOT NULL,
+    path_cv character varying(60)
+);
+
+
+ALTER TABLE public.resume OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 24587)
+-- Name: resume_id_cv_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.resume ALTER COLUMN id_cv ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.resume_id_cv_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
 -- TOC entry 214 (class 1259 OID 16419)
 -- Name: subcategory; Type: TABLE; Schema: public; Owner: postgres
 --
@@ -232,7 +262,7 @@ ALTER TABLE public.subcategory ALTER COLUMN id_subcategory ADD GENERATED ALWAYS 
 
 
 --
--- TOC entry 2872 (class 2606 OID 16425)
+-- TOC entry 2878 (class 2606 OID 16425)
 -- Name: application application_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -241,7 +271,7 @@ ALTER TABLE ONLY public.application
 
 
 --
--- TOC entry 2874 (class 2606 OID 16427)
+-- TOC entry 2880 (class 2606 OID 16427)
 -- Name: body_message body_message_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -250,7 +280,7 @@ ALTER TABLE ONLY public.body_message
 
 
 --
--- TOC entry 2876 (class 2606 OID 16429)
+-- TOC entry 2882 (class 2606 OID 16429)
 -- Name: city city_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -259,7 +289,7 @@ ALTER TABLE ONLY public.city
 
 
 --
--- TOC entry 2878 (class 2606 OID 16431)
+-- TOC entry 2884 (class 2606 OID 16431)
 -- Name: company company_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -268,7 +298,7 @@ ALTER TABLE ONLY public.company
 
 
 --
--- TOC entry 2880 (class 2606 OID 16433)
+-- TOC entry 2886 (class 2606 OID 16433)
 -- Name: customer customer_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -277,7 +307,7 @@ ALTER TABLE ONLY public.customer
 
 
 --
--- TOC entry 2882 (class 2606 OID 16435)
+-- TOC entry 2888 (class 2606 OID 16435)
 -- Name: job_offer job_offer_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -286,7 +316,16 @@ ALTER TABLE ONLY public.job_offer
 
 
 --
--- TOC entry 2884 (class 2606 OID 16437)
+-- TOC entry 2894 (class 2606 OID 24586)
+-- Name: resume resume_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.resume
+    ADD CONSTRAINT resume_pk PRIMARY KEY (id_customer_customer, id_cv);
+
+
+--
+-- TOC entry 2890 (class 2606 OID 16437)
 -- Name: main_sector sector_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -295,7 +334,7 @@ ALTER TABLE ONLY public.main_sector
 
 
 --
--- TOC entry 2886 (class 2606 OID 16439)
+-- TOC entry 2892 (class 2606 OID 16439)
 -- Name: subcategory subcategory_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -304,7 +343,7 @@ ALTER TABLE ONLY public.subcategory
 
 
 --
--- TOC entry 2890 (class 2606 OID 16440)
+-- TOC entry 2898 (class 2606 OID 16440)
 -- Name: job_offer city_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -313,7 +352,7 @@ ALTER TABLE ONLY public.job_offer
 
 
 --
--- TOC entry 2891 (class 2606 OID 16445)
+-- TOC entry 2899 (class 2606 OID 16445)
 -- Name: job_offer company_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -322,7 +361,7 @@ ALTER TABLE ONLY public.job_offer
 
 
 --
--- TOC entry 2889 (class 2606 OID 16450)
+-- TOC entry 2897 (class 2606 OID 16450)
 -- Name: body_message customer_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -331,7 +370,7 @@ ALTER TABLE ONLY public.body_message
 
 
 --
--- TOC entry 2887 (class 2606 OID 16455)
+-- TOC entry 2895 (class 2606 OID 16455)
 -- Name: application customer_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -340,7 +379,16 @@ ALTER TABLE ONLY public.application
 
 
 --
--- TOC entry 2888 (class 2606 OID 16460)
+-- TOC entry 2902 (class 2606 OID 24580)
+-- Name: resume customer_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.resume
+    ADD CONSTRAINT customer_fk FOREIGN KEY (id_customer_customer) REFERENCES public.customer(id_customer) MATCH FULL ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 2896 (class 2606 OID 16460)
 -- Name: application job_offer_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -349,7 +397,7 @@ ALTER TABLE ONLY public.application
 
 
 --
--- TOC entry 2892 (class 2606 OID 16465)
+-- TOC entry 2900 (class 2606 OID 16465)
 -- Name: job_offer main_sector_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -358,7 +406,7 @@ ALTER TABLE ONLY public.job_offer
 
 
 --
--- TOC entry 2893 (class 2606 OID 16470)
+-- TOC entry 2901 (class 2606 OID 16470)
 -- Name: job_offer subcategory_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -366,7 +414,7 @@ ALTER TABLE ONLY public.job_offer
     ADD CONSTRAINT subcategory_fk FOREIGN KEY (id_subcategory_subcategory) REFERENCES public.subcategory(id_subcategory) MATCH FULL ON UPDATE CASCADE ON DELETE SET NULL;
 
 
--- Completed on 2021-11-08 10:03:15 -05
+-- Completed on 2021-11-09 12:54:58 -05
 
 --
 -- PostgreSQL database dump complete

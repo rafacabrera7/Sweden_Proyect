@@ -9,6 +9,7 @@ from pydantic import BaseModel
 import sys
 sys.path.append('../Database/')
 from dbSQL import *
+from save_pdf import *
 sys.path.append('../Email/')
 from send_emails import *
 sys.path.append('../Web_Scraping/')
@@ -210,29 +211,32 @@ async def company_report(
 async def apply_application(
         application: Application):
     # perform validations
-    print(application.client_id)
-    print(application.category)
-    print(application.subcategory)
-    print(application.number_toSend)
-    print(application.email_subject)
-    print(application.body_id)
-    print(application.cv_id)
+    # print(application.client_id)
+    # print(application.category)
+    # print(application.subcategory)
+    # print(application.number_toSend)
+    # print(application.email_subject)
+    # print(application.body_id)
+    # print(application.cv_id)
     s = send_Emails(application.client_id, application.email_subject, application.body_id, application.cv_id, application.number_toSend, application.category,application.subcategory)
-    print(s)
-    return {"success": True, "msg": "applied good"}
+    # print(s)
+    return {"success": True, "msg": s}
 
 
 @app.post("/uploadCV/")
 async def uploadCV(
         client_id: int,
         cv_name: str,
-        CVfile: UploadFile = File(None)):
+        CVfile: UploadFile = File(...)):
+    s = "Failed to uploadCV"
     if CVfile is None:
         print("no cv given")
     else:
-        print("received file bytes!")
-        print(CVfile.filename)
-    return {"msg": "upload worked ok i guess"}
+        id_cv = insert_cv_space(client_id,CVfile.filename)
+        path_cv = save_pdf(client_id, id_cv, CVfile, CVfile.filename)
+        insert_cv_path(client_id, id_cv, path_cv)
+        s = "Saved succefully"
+    return {"msg": s}
 
 
 @app.get("/cv_report/")

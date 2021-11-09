@@ -89,7 +89,7 @@ def send_Email(id_customer, subject, id_body, file, recipient, id_job,j_descript
         server.ehlo()
         server.login(USERNAME_SMTP, PASSWORD_SMTP)
         print("Con with SES donde")
-        # server.sendmail(SENDER, RECIPIENT, msg.as_string())
+        server.sendmail(SENDER, RECIPIENT, msg.as_string())
         server.close()
     # Display an error message if something goes wrong.
     except Exception as e:
@@ -108,5 +108,5 @@ def send_Emails(id_customer, subject, id_body, file, n_jobs, id_sector, id_subca
         print(j[3])
         t = send_Email(id_customer, subject, id_body, file, j[3], j[0],j[2], j[4])
         c+=t
-    r = str(c) + "emails sent"
+    r = str(c) + " emails sent"
     return r

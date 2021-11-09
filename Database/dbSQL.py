@@ -868,3 +868,66 @@ def get_company_report(id_comp):
         cursor.close()
         con.close()
         print("Conection closed")
+
+def insert_cv_space(id_customer, file_name):
+    try:
+        con = psycopg2.connect(user = "postgres",
+                               password = "Cabrera05",
+                               database = "Sweden",
+                               host = "localhost",
+                               port = "5432")
+        print("Conexión exitosa!")
+
+        con.autocommit = False
+
+        cursor = con.cursor()
+
+        sql_insert = """INSERT INTO resume VALUES (%s, DEFAULT, %s, NULL)
+                        RETURNING id_cv"""
+        cursor.execute(sql_insert,(id_customer, file_name))
+        id_cv = cursor.fetchone()
+
+        con.commit()
+
+        return id_cv[0]
+
+    except psycopg2.Error as e:
+        print("Error connecting", e)
+        con.rollback();
+
+    finally:
+        cursor.close()
+        con.close()
+        print("Conection closed")
+
+def insert_cv_path(id_customer, id_cv, path):
+    try:
+        con = psycopg2.connect(user = "postgres",
+                               password = "Cabrera05",
+                               database = "Sweden",
+                               host = "localhost",
+                               port = "5432")
+        print("Conexión exitosa!")
+
+        con.autocommit = False
+
+        cursor = con.cursor()
+
+        sql_insert = """UPDATE resume SET path_cv = %s
+                        WHERE id_customer_customer = %s
+                        AND id_cv = %s
+                        """
+        cursor.execute(sql_insert,(path, id_customer, id_cv))
+
+        con.commit()
+
+        return "Succesful path insertion"
+
+    except psycopg2.Error as e:
+        print("Error connecting", e)
+        con.rollback();
+
+    finally:
+        cursor.close()
+        con.close()
+        print("Conection closed")
