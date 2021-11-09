@@ -318,7 +318,8 @@ def insert_job_offer(tuple):
         print("Conection closed")
 
 def insert_customer(tuple):
-    #tuple recieved is of the form: (name_customer, customer_email, password_customer)
+    #tuple recieved is of the form:
+    # (name_customer, customer_email, password_customer)
 
     # this function recieves one tuple and inserts the value corresponding to
     # name_customer in the table customer
@@ -347,7 +348,7 @@ def insert_customer(tuple):
             customers_ls.append(customer[0])
 
         if tuple[0] not in customers_ls:
-            sql_insert = """INSERT INTO customer VALUES (DEFAULT, %s, %s, %s, %s)
+            sql_insert = """INSERT INTO customer VALUES (DEFAULT, %s, %s, %s, %s, NULL, NULL)
                     RETURNING id_customer"""
             f_tuple = tuple +(date.today(),)
             cursor.execute(sql_insert, (f_tuple))
@@ -376,7 +377,7 @@ def insert_customer(tuple):
         print("Conection closed")
 
 def insert_body(tuple):
-    #tuple recieved is of the form: (name_customer, body_message)
+    #tuple recieved is of the form: (id_cust, body_message)
     # this function recieves one tuple and inserts the value corresponding to
     # name_customer in the table customer
     # since id_customer should be automatically generated, it returns that
@@ -397,13 +398,7 @@ def insert_body(tuple):
 
         cursor = con.cursor()
 
-        sql_search = """SELECT id_customer FROM customer
-                        WHERE name_customer = %s"""
-        cursor.execute(sql_search,(tuple[0],))
-        print("Customer found")
-
-        id_cust = cursor.fetchone()
-        id_cust = id_cust[0]
+        id_cust = tuple[0]
 
         f_tuple = (id_cust,)+ (tuple[1],)
         print("Tuple to insert: ", f_tuple)
@@ -507,7 +502,7 @@ def get_customer(id_customer):
         con.close()
         print("Conection closed")
 
-def get_body(id_customer, id_body):
+def get_bodies(id_customer):
 # This function takes the id of a body and return a text with its information
 
     try:
@@ -523,7 +518,43 @@ def get_body(id_customer, id_body):
         cursor = con.cursor()
 
         sql_get = """SELECT * FROM body_message
-                    WHERE (id_customer_customer = %s) AND (id_body = %s)"""
+                    WHERE id_customer_customer = %s"""
+
+        cursor.execute(sql_get, (id_customer,))
+        rows = cursor.fetchall()
+
+        return rows
+
+        con.commit()
+
+
+    except psycopg2.Error as e:
+        print("Error connecting", e)
+        con.rollback();
+
+    finally:
+        cursor.close()
+        con.close()
+        print("Conection closed")
+
+def get_body(id_customer,id_body):
+# This function takes the id of a body and return a text with its information
+
+    try:
+        con = psycopg2.connect(user = "postgres",
+                               password = "Cabrera05",
+                               database = "Sweden",
+                               host = "localhost",
+                               port = "5432")
+        print("Conexión exitosa!")
+
+        con.autocommit = False
+
+        cursor = con.cursor()
+
+        sql_get = """SELECT * FROM body_message
+                    WHERE id_customer_customer = %s
+                    AND id_body = %s"""
 
         cursor.execute(sql_get, (id_customer,id_body))
         row = cursor.fetchone()
@@ -541,6 +572,7 @@ def get_body(id_customer, id_body):
         cursor.close()
         con.close()
         print("Conection closed")
+
 
 def get_jobs(id_customer, n_jobs, id_sector, id_subcategory=None):
 # This function takes some parameters and returns all the job offers that
@@ -603,6 +635,222 @@ def get_jobs(id_customer, n_jobs, id_sector, id_subcategory=None):
                         LIMIT %s;
                         """
             cursor.execute(sql_get, (id_sector, id_customer, n_jobs))
+
+
+        rows = cursor.fetchall()
+
+        return rows
+
+        con.commit()
+
+
+    except psycopg2.Error as e:
+        print("Error connecting", e)
+        con.rollback();
+
+    finally:
+        cursor.close()
+        con.close()
+        print("Conection closed")
+
+def get_client_report(id_customer, n_jobs):
+# This function takes some parameters and returns all the job offers that
+# fill those parameters and returns a list of tuples
+# tuple form: (id_job, name_job, description_job, email_job, id_company, id_sector, id_subcategory,date_accesed)
+    try:
+        con = psycopg2.connect(user = "postgres",
+                               password = "Cabrera05",
+                               database = "Sweden",
+                               host = "localhost",
+                               port = "5432")
+        print("Conexión exitosa!")
+
+        con.autocommit = False
+
+        cursor = con.cursor()
+
+        sql_get = """
+                SELECT id_job, name_job, name_company, email_job, url_job, date_app FROM (
+                SELECT * FROM job_offer
+                INNER JOIN (SELECT *
+                			FROM application
+                		    WHERE id_customer_customer = %s) as app_customer
+                ON id_job = id_job_job_offer
+                ) as job_app INNER JOIN company
+                ON id_company_company = id_company
+                ORDER BY date_app DESC
+                LIMIT %s
+                    """
+        cursor.execute(sql_get, (id_customer, n_jobs))
+
+
+        rows = cursor.fetchall()
+
+        return rows
+
+        con.commit()
+
+
+    except psycopg2.Error as e:
+        print("Error connecting", e)
+        con.rollback();
+
+    finally:
+        cursor.close()
+        con.close()
+        print("Conection closed")
+
+def get_client_list():
+# returns a tuple like: (id_customer, name_customer, email_customer, password_customer, date_inserted, n_apps_sent)
+    try:
+        con = psycopg2.connect(user = "postgres",
+                               password = "Cabrera05",
+                               database = "Sweden",
+                               host = "localhost",
+                               port = "5432")
+        print("Conexión exitosa!")
+
+        con.autocommit = False
+
+        cursor = con.cursor()
+
+        sql_get = """
+                    SELECT id_customer, name_customer, email_customer, password_customer, date_inserted, n_apps_sent
+                    FROM (
+                    	SELECT * FROM CUSTOMER
+                    	INNER JOIN (
+                    				SELECT id_customer_customer, COUNT(*) as n_apps_sent
+                    				FROM application
+                    				GROUP BY id_customer_customer
+                    				) as cust_app_count
+                    	ON id_customer = id_customer_customer
+                    ) as cust_apps_count
+                    """
+        cursor.execute(sql_get)
+
+
+        rows = cursor.fetchall()
+
+        return rows
+
+        con.commit()
+
+
+    except psycopg2.Error as e:
+        print("Error connecting", e)
+        con.rollback();
+
+    finally:
+        cursor.close()
+        con.close()
+        print("Conection closed")
+
+def get_job_offer_list():
+# returns a tuple like: (id_job, name_job, description_job, name_company, url_job, date_accesed, name_sector, name_subcategory, email_job)
+    try:
+        con = psycopg2.connect(user = "postgres",
+                               password = "Cabrera05",
+                               database = "Sweden",
+                               host = "localhost",
+                               port = "5432")
+        print("Conexión exitosa!")
+
+        con.autocommit = False
+
+        cursor = con.cursor()
+
+        sql_get = """
+            SELECT id_job, name_job, description_job, name_company, url_job, date_accesed, name_sector, name_subcategory, email_job
+            FROM job_offer INNER JOIN company
+            ON id_company_company = id_company
+            INNER JOIN main_sector
+            ON id_sector_main_sector = id_sector
+            INNER JOIN subcategory
+            ON id_subcategory_subcategory = id_subcategory
+            ORDER BY date_accesed DESC
+                    """
+        cursor.execute(sql_get)
+
+
+        rows = cursor.fetchall()
+
+        return rows
+
+        con.commit()
+
+
+    except psycopg2.Error as e:
+        print("Error connecting", e)
+        con.rollback();
+
+    finally:
+        cursor.close()
+        con.close()
+        print("Conection closed")
+
+def get_company_list():
+# returns a tuple like: (id_company, name_company)
+    try:
+        con = psycopg2.connect(user = "postgres",
+                               password = "Cabrera05",
+                               database = "Sweden",
+                               host = "localhost",
+                               port = "5432")
+        print("Conexión exitosa!")
+
+        con.autocommit = False
+
+        cursor = con.cursor()
+
+        sql_get = """
+                    SELECT * FROM company
+                    """
+        cursor.execute(sql_get)
+
+        rows = cursor.fetchall()
+
+        return rows
+
+        con.commit()
+
+
+    except psycopg2.Error as e:
+        print("Error connecting", e)
+        con.rollback();
+
+    finally:
+        cursor.close()
+        con.close()
+        print("Conection closed")
+
+def get_company_report(id_comp):
+# returns a tuple like: (id_job, name_job, description_job, url_job, name_city,date_accesed, name_sector, name_subcategory, email_job, id_company)
+    try:
+        con = psycopg2.connect(user = "postgres",
+                               password = "Cabrera05",
+                               database = "Sweden",
+                               host = "localhost",
+                               port = "5432")
+        print("Conexión exitosa!")
+
+        con.autocommit = False
+
+        cursor = con.cursor()
+
+        sql_get = """
+                    SELECT id_job, name_job, description_job, url_job, name_city,date_accesed, name_sector, name_subcategory, email_job, id_company
+                    FROM job_offer INNER JOIN company
+                    ON id_company_company = id_company
+                    INNER JOIN main_sector
+                    ON id_sector_main_sector = id_sector
+                    INNER JOIN subcategory
+                    ON id_subcategory_subcategory = id_subcategory
+                    INNER JOIN city
+                    ON id_city_city = id_city
+                    WHERE id_company = %s
+                    ORDER BY date_accesed DESC
+                    """
+        cursor.execute(sql_get, (id_comp,))
 
 
         rows = cursor.fetchall()

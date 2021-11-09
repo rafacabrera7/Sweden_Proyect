@@ -6,6 +6,16 @@ from fastapi.responses import RedirectResponse
 from typing import Optional
 from pydantic import BaseModel
 
+import sys
+sys.path.append('../Database/')
+from dbSQL import *
+sys.path.append('../Email/')
+from send_emails import *
+sys.path.append('../Web_Scraping/')
+from script_rafa import *
+
+from datetime import date
+
 
 class Client(BaseModel):
     name: str
@@ -40,6 +50,7 @@ class Application(BaseModel):
     cv_id: int
 
 
+
 app = FastAPI()
 
 app.mount("/web/static/", StaticFiles(directory="./web/static/"), name="static")
@@ -59,7 +70,7 @@ async def root():
 #     return response
 
 
-@app.get("/scrape/")
+@app.post("/scrape/")
 async def ScrapeRequest(
         city: str = "", main_category: str = "",
         subcategory: str = "", url=""):
@@ -67,7 +78,8 @@ async def ScrapeRequest(
     print(main_category)
     print(subcategory)
     print(url)
-    return {"success": True, "msg": "Scrape Success/Error"}
+    t = scrape(url, city, main_category, subcategory)
+    return {"success": True, "msg": "Good"}
 
 
 @app.post("/insert_client")
@@ -77,18 +89,24 @@ async def insert_client(
     print(client.name)
     print(client.email)
     print(client.password)
+    t = (client.name, client.email, client.password)
+    insert_customer(t)
     return {"success": True, "msg": "Inserted"}
 
 
 @app.get("/list_clients")
 async def list_clients():
-    client1 = {"client_id": "1123", "name": "Pedrito",
-               "email": "hello@gmail.com", "email_password": "mypassword123",
-               "date_inserted": "19/29",
-               "number_of_apps": "1111"}
-    clients = [client1]
-    count = len(clients)
-    return {"success": True, "clients": clients, "count": count}
+    t_clients = get_client_list()
+    ls_clients = []
+    for c in t_clients:
+        dic_cli = {"client_id": c[0], "name": c[1],
+                   "email": c[2], "email_password": c[3],
+                   "date_inserted": c[4],
+                   "number_of_apps": c[5]}
+        ls_clients.append(dic_cli)
+
+    count = len(ls_clients)
+    return {"success": True, "clients": ls_clients, "count": count}
 
 
 @app.get("/client_report/")
@@ -96,23 +114,26 @@ async def client_report(
     client_id: int,
     to_display: int,
 ):
-    job1 = {"job_name": "Cleaner", "company": "notgoogle", "email": "cleaner@gmail.com",
-            "url": "www.sample.com", "date": "some/format/youlike"}
-    job2 = {"job_name": "Coder", "company": "prolly google", "email": "coder@gmail.com",
-            "url": "www.notsample.com", "date": "9/11/2021"}
+    t_apps = get_client_report(client_id, to_display)
+    ls_apps = []
+    for a in t_apps:
+        dic_app = {"job_name": a[1], "company": a[2], "email": a[3], "url": a[4], "date": a[5]}
+        ls_apps.append(dic_app)
 
-    jobs = [job1, job2]
-    return {"success": True, "jobs": jobs, "max_applications": 10}
+    return {"success": True, "jobs": ls_apps, "max_applications": len(ls_apps)}
 
 
 @app.get("/client_body_report/")
 async def client_body_report(
     client_id: int
 ):
-    body1 = {"id": "1245", "message_body": "very long message"}
-    body2 = {"id": "123123", "message_body": "very long message body x2"}
+    t_bodies = get_bodies(client_id)
+    ls_bodies = []
+    for b in t_bodies:
+        dic_body = {"id":b[1], "message_body":b[2]}
+        ls_bodies.append(dic_body)
     # please do include client id
-    return {"success": True, "bodies": [body1, body2], "client_id": client_id}
+    return {"success": True, "bodies": ls_bodies, "client_id": client_id}
 
 
 @app.post("/client_insert_body")
@@ -123,58 +144,81 @@ async def client_insert_body(
         print("editing existing message")
     print(client.id)
     print(client.message_body)
-
+    insert_body((client.id, client.message_body))
     return {"success": True, "msg": "Success Body Insert"}
 
-
+# add a id_job_offer
 @app.post("/insert_job_offer")
 async def insert_joboffer(
     joboffer: JobOfferInsert
 ):
     print(joboffer.name)
+    print(joboffer.description)
     print(joboffer.email_job_offer)
+    print(joboffer.company)
+    print(joboffer.city)
+    print(joboffer.url)
+    print(joboffer.main_category)
+    print(joboffer.subcategory)
+    insert_job_offer((567, joboffer.name, joboffer.description, joboffer.email_job_offer, joboffer.company,date.today(),joboffer.url, joboffer.city, joboffer.main_category, joboffer.subcategory))
     return {"success": True, "msg": "Successful JobOffer Insert"}
 
 
+# add id_job and email_job
 @app.get("/list_job_offer")
 async def list_joboffer(
 ):
-    joboff1 = {"job_name": "A very cool job",
-               "description": "Need frontend stack", "company": "gululu",
-               "url": "gululu.com", "date": "1900BC", "category": "Farming", "subcategory": "hello",
-               "email_joboffer": "recruiter@gmail.com", "city": "Glasgow"}
-    joboffers = [joboff1]
-    return {"success": True, "msg": "Successful JobOffer Insert", "joboffers": joboffers}
+    t_jobs = get_job_offer_list()
+    ls_jobs = []
+    for j in t_jobs:
+        dic_job = {"job_name": j[1],
+                   "description": j[2], "company": j[3],
+                   "url": j[4], "date": j[5], "category": j[6], "subcategory": j[7],
+                   "email_joboffer": j[8]}
+        ls_jobs.append(dic_job)
+
+    return {"success": True, "msg": "Successful JobOffer Insert", "joboffers": ls_jobs}
 
 
 @app.get("/list_jobcompanies")
 async def list_jobcompanies():
-    companies = {"1111": "Google", "222": "Amazon"}
-    count = len(companies)
-    return {"success": True, "companies": companies, "count": count}
+    t_companies = get_company_list()
+    ls_companies = {}
+    for c in t_companies:
+        ls_companies[str(c[0])] = c[1]
+    count = len(ls_companies)
+    return {"success": True, "companies": ls_companies, "count": count}
 
 
 @app.get("/company_report/")
 async def company_report(
     company_id: int,
 ):
-    job1 = {"job_name": "Cleaner", "company": "notgoogle", "url": "companyurl.com",
-            "city": "California", "date": "some/format/youlike",
-            "category": "Farming 2.0",
-            "subcategory": "Cleaner Farming"}
+    t_jobs = get_company_report(company_id)
+    ls_jobs = []
+    for j in t_jobs:
+        dic_job = {"job_name": j[1], "company": j[2], "url": j[3],
+                "city": j[4], "date": j[5],
+                "category": j[6],
+                "subcategory": j[7]}
+        ls_jobs.append(dic_job)
 
-    jobs = [job1]
-    return {"success": True, "jobs": jobs}
+    return {"success": True, "jobs": ls_jobs}
 
 
 @app.post("/apply")
 async def apply_application(
         application: Application):
     # perform validations
-    print(application.subcategory)
-    print(application.body_id)
     print(application.client_id)
-
+    print(application.category)
+    print(application.subcategory)
+    print(application.number_toSend)
+    print(application.email_subject)
+    print(application.body_id)
+    print(application.cv_id)
+    s = send_Emails(application.client_id, application.email_subject, application.body_id, application.cv_id, application.number_toSend, application.category,application.subcategory)
+    print(s)
     return {"success": True, "msg": "applied good"}
 
 

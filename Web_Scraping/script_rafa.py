@@ -105,12 +105,13 @@ def scrape(raw_link, city, main_sector=None, subcategory=None):
         if t[3]!='None':
             insert_job_offer(t)
             c+=1
-    print(c,"job offers inserted")
+    msg = str(c) + "job offers inserted"
+    return msg
     #guardo el archivo json que a mi forma de ver es necesario, luego podría iterar
     #sobre el json o hacer el query desde este script si quisiera
     # with open("all_i_need_4.json" , "w") as file:
     #     json.dump(all_i_need , file)
     #     print("everyting done")
 
-text = "https://arbetsformedlingen.se/platsbanken/annonser?page=1&p=5:tPox_ie4_X9X&l=2:CifL_Rzy_Mku"
-scrape(text, "Stockholms län", "Hotell, restaurang, storhushåll", "Restaurant and kitchen assistants etc.")
+# text = "https://arbetsformedlingen.se/platsbanken/annonser?page=1&p=5:tPox_ie4_X9X&l=2:CifL_Rzy_Mku"
+# scrape(text, "Stockholms län", "Hotell, restaurang, storhushåll", "Restaurant and kitchen assistants etc.")
