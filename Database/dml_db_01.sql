@@ -2,10 +2,10 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.8 (Ubuntu 12.8-1.pgdg20.04+1)
--- Dumped by pg_dump version 14.0 (Ubuntu 14.0-1.pgdg20.04+1)
+-- Dumped from database version 12.5
+-- Dumped by pg_dump version 12.5
 
--- Started on 2021-11-09 14:05:57 -05
+-- Started on 2021-11-09 16:02:08
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,7 +19,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 3032 (class 0 OID 16396)
+-- TOC entry 2887 (class 0 OID 68307)
 -- Dependencies: 205
 -- Data for Name: city; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -31,7 +31,7 @@ INSERT INTO public.city OVERRIDING SYSTEM VALUE VALUES (7, 'Glasgow');
 
 
 --
--- TOC entry 3034 (class 0 OID 16401)
+-- TOC entry 2889 (class 0 OID 68312)
 -- Dependencies: 207
 -- Data for Name: company; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -145,10 +145,30 @@ INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (120, 'Mbq HB, Restaur
 INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (121, 'Sushinara AB');
 INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (122, 'Jcompany');
 INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (123, 'gululu');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (124, 'El Taco Bar AB');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (125, 'Yusuf Varli Grill AB');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (126, 'Uniparsco AB');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (127, 'Grilles AB');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (128, 'Batum Pizzeria HB');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (129, 'Italiana');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (130, 'Campino AB');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (131, 'Mana Restauranger AB');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (132, 'Gula Rosa HB, Pizzeria');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (133, 'Pdf Burger AB');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (134, 'Lilla Italien HB, Restaurang');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (135, 'Ms Fastighet & Restaurang i Stockholm AB');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (136, 'Eataly Stockholm AB');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (137, 'DagSar AB');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (138, 'Norrtälje Pizzeria Arena AB');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (139, 'LA PIAZZA DJURSHOLM AB');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (140, 'Akdeves Pizzeria, Ahmet');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (141, 'Stockholms Bästa Pizzeria G&G HB');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (142, 'Bistro Lillströmma');
+INSERT INTO public.company OVERRIDING SYSTEM VALUE VALUES (143, 'Chrille''s Restaurang Pizzeria AB');
 
 
 --
--- TOC entry 3036 (class 0 OID 16406)
+-- TOC entry 2891 (class 0 OID 68317)
 -- Dependencies: 209
 -- Data for Name: customer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -159,7 +179,7 @@ INSERT INTO public.customer OVERRIDING SYSTEM VALUE VALUES (4, 'Juan', 'juan@123
 
 
 --
--- TOC entry 3039 (class 0 OID 16414)
+-- TOC entry 2894 (class 0 OID 68325)
 -- Dependencies: 212
 -- Data for Name: main_sector; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -171,8 +191,8 @@ INSERT INTO public.main_sector OVERRIDING SYSTEM VALUE VALUES (7, 'Farming');
 
 
 --
--- TOC entry 3041 (class 0 OID 16419)
--- Dependencies: 214
+-- TOC entry 2898 (class 0 OID 68335)
+-- Dependencies: 216
 -- Data for Name: subcategory; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -180,10 +200,11 @@ INSERT INTO public.subcategory OVERRIDING SYSTEM VALUE VALUES (3, 'Restaurant an
 INSERT INTO public.subcategory OVERRIDING SYSTEM VALUE VALUES (4, 'prueba');
 INSERT INTO public.subcategory OVERRIDING SYSTEM VALUE VALUES (5, 'Jsubcat');
 INSERT INTO public.subcategory OVERRIDING SYSTEM VALUE VALUES (6, 'hello');
+INSERT INTO public.subcategory OVERRIDING SYSTEM VALUE VALUES (7, 'Pizzabagare m.fl.');
 
 
 --
--- TOC entry 3038 (class 0 OID 16411)
+-- TOC entry 2893 (class 0 OID 68322)
 -- Dependencies: 211
 -- Data for Name: job_offer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -302,10 +323,32 @@ INSERT INTO public.job_offer VALUES (25164802, 'Diskare/ köksbiträde', 'Diskar
 INSERT INTO public.job_offer VALUES (25161063, 'Restaurangbiträde', 'Restaurangbiträde', 'pizzeriamissina@gmail.com', 96, '2021-11-08', 'https://arbetsformedlingen.se/platsbanken/annonser/25161063', 4, 4, 3);
 INSERT INTO public.job_offer VALUES (25118171, 'Runner sökes till våra Arenor', 'Restaurangbiträde', 'personal@fivemoments.se', 98, '2021-11-08', 'https://arbetsformedlingen.se/platsbanken/annonser/25118171', 4, 4, 3);
 INSERT INTO public.job_offer VALUES (25118114, 'Vi söker köksbiträden till Galor och event', 'Köksbiträde', 'personal@fivemoments.se', 98, '2021-11-08', 'https://arbetsformedlingen.se/platsbanken/annonser/25118114', 4, 4, 3);
+INSERT INTO public.job_offer VALUES (25290789, 'Pizzabagare', 'Pizzabagare', 'info@ilconte.nu', 124, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25290789', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25290077, 'Pizzabagare sökes till italiensk restaurang i gamla stan', 'Pizzabagare', 'Ninosduru92@gmail.com', 116, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25290077', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25288694, 'Dalparken Gatukök | Sushi | Wok söker', 'Grillbiträde/Gatuköksbiträde', 'Gabriel.varli@hotmail.com', 125, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25288694', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25282496, 'Napolitans Pizza Bagare sökes', 'Pizzabagare', 'kontor@mediskokochbar.se', 126, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25282496', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25277738, 'Serviceminded Fastfoodmaker', 'Grillkock, snabbmat', 'Personal@grilladd.nu', 127, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25277738', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25267465, 'Vi behöver Pizzabagare för heltidstjänst', 'Pizzabagare', 'tekin_yesilova@hotmail.com', 128, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25267465', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25266824, 'Pizzabagare', 'Pizzabagare', 'Aframchamun@live.se', 129, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25266824', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25262276, 'Pizzabagare sökes till Tingvalla Pizzeria i Märsta', 'Pizzabagare', 'rodi2017@hotmail.com', 16, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25262276', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25261271, 'Pizzeria Campino söker Pizzabagare till Märsta', 'Pizzabagare', 'dany_campino@hotmail.com', 130, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25261271', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25260828, 'Pizzabagare sökes på deltid', 'Pizzabagare', 'ansokan@hotmail.com', 131, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25260828', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25253924, 'Pizzabagare!', 'Pizzabagare', 'kurd.s@hotmail.com', 132, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25253924', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25250251, 'Hamburger kock', 'Grillkock, snabbmat', 'dani.zazi@gmail.com', 133, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25250251', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25246402, 'PIZZABAGARE', 'Pizzabagare', 'muammer_arikan@hotmail.co', 134, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25246402', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25241883, 'Pizzabagare i Stockholm', 'Pizzabagare', 'msrestaurang@hotmail.com', 135, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25241883', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25235252, 'Pizza maker', 'Pizzabagare', 'HR@eataly.se', 136, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25235252', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25233666, 'Pizzabagare', 'Pizzabagare', 'Epa-12648@hotmail.com', 137, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25233666', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25218216, 'Pizzabagare sökes i Norrtälje', 'Pizzabagare', 'fadi_yakob@hotmail.com', 138, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25218216', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25216953, 'Pizzakock', 'Pizzabagare', 'bjorn@lapiazzadjursholm.se', 139, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25216953', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25214657, 'Pizzabagare', 'Pizzabagare', 'pizzeria.grantomta@hotmail.com', 140, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25214657', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (25212752, 'Pizzabagare', 'Pizzabagare', 'ilfornouno@outlook.com', 141, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/25212752', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (24974692, 'Pizzabagare sökes', 'Pizzabagare', 'jobb.stromma@gmail.com', 142, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/24974692', 4, 4, 7);
+INSERT INTO public.job_offer VALUES (24975607, 'Pizzabagare I Tyresö', 'Pizzabagare', 'ghassan.mlke@hotmail.com', 143, '2021-11-09', 'https://arbetsformedlingen.se/platsbanken/annonser/24975607', 4, 4, 7);
 
 
 --
--- TOC entry 3029 (class 0 OID 16385)
+-- TOC entry 2884 (class 0 OID 68296)
 -- Dependencies: 202
 -- Data for Name: application; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -317,7 +360,7 @@ INSERT INTO public.application VALUES (1, 123, '2021-11-09');
 
 
 --
--- TOC entry 3030 (class 0 OID 16388)
+-- TOC entry 2885 (class 0 OID 68299)
 -- Dependencies: 203
 -- Data for Name: body_message; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -329,8 +372,8 @@ INSERT INTO public.body_message OVERRIDING SYSTEM VALUE VALUES (1, 4, 'Hi2, I am
 
 
 --
--- TOC entry 3043 (class 0 OID 24577)
--- Dependencies: 216
+-- TOC entry 2896 (class 0 OID 68330)
+-- Dependencies: 214
 -- Data for Name: resume; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -343,7 +386,7 @@ INSERT INTO public.resume OVERRIDING SYSTEM VALUE VALUES (1, 6, 'Tarea_Taller_1.
 
 
 --
--- TOC entry 3050 (class 0 OID 0)
+-- TOC entry 2905 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: body_message_body_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -352,7 +395,7 @@ SELECT pg_catalog.setval('public.body_message_body_id_seq', 4, true);
 
 
 --
--- TOC entry 3051 (class 0 OID 0)
+-- TOC entry 2906 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: city_id_city_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -361,16 +404,16 @@ SELECT pg_catalog.setval('public.city_id_city_seq', 7, true);
 
 
 --
--- TOC entry 3052 (class 0 OID 0)
+-- TOC entry 2907 (class 0 OID 0)
 -- Dependencies: 208
 -- Name: company_id_company_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.company_id_company_seq', 123, true);
+SELECT pg_catalog.setval('public.company_id_company_seq', 143, true);
 
 
 --
--- TOC entry 3053 (class 0 OID 0)
+-- TOC entry 2908 (class 0 OID 0)
 -- Dependencies: 210
 -- Name: customer_id_customer_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -379,7 +422,7 @@ SELECT pg_catalog.setval('public.customer_id_customer_seq', 4, true);
 
 
 --
--- TOC entry 3054 (class 0 OID 0)
+-- TOC entry 2909 (class 0 OID 0)
 -- Dependencies: 213
 -- Name: main_sector_id_sector_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -388,8 +431,8 @@ SELECT pg_catalog.setval('public.main_sector_id_sector_seq', 7, true);
 
 
 --
--- TOC entry 3055 (class 0 OID 0)
--- Dependencies: 217
+-- TOC entry 2910 (class 0 OID 0)
+-- Dependencies: 215
 -- Name: resume_id_cv_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -397,15 +440,15 @@ SELECT pg_catalog.setval('public.resume_id_cv_seq', 6, true);
 
 
 --
--- TOC entry 3056 (class 0 OID 0)
--- Dependencies: 215
+-- TOC entry 2911 (class 0 OID 0)
+-- Dependencies: 217
 -- Name: subcategory_id_subcategory_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.subcategory_id_subcategory_seq', 6, true);
+SELECT pg_catalog.setval('public.subcategory_id_subcategory_seq', 7, true);
 
 
--- Completed on 2021-11-09 14:05:57 -05
+-- Completed on 2021-11-09 16:02:09
 
 --
 -- PostgreSQL database dump complete

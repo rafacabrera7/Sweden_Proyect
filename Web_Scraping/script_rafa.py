@@ -106,6 +106,7 @@ def scrape(raw_link, city, main_sector=None, subcategory=None):
             insert_job_offer(t)
             c+=1
     msg = str(c) + "job offers inserted"
+    print(msg)
     return msg
     #guardo el archivo json que a mi forma de ver es necesario, luego podría iterar
     #sobre el json o hacer el query desde este script si quisiera
@@ -114,4 +115,5 @@ def scrape(raw_link, city, main_sector=None, subcategory=None):
     #     print("everyting done")
 
 # text = "https://arbetsformedlingen.se/platsbanken/annonser?page=1&p=5:tPox_ie4_X9X&l=2:CifL_Rzy_Mku"
-# scrape(text, "Stockholms län", "Hotell, restaurang, storhushåll", "Restaurant and kitchen assistants etc.")
+text = "https://arbetsformedlingen.se/platsbanken/annonser?page=2&p=5:a8gg_ktU_w8V&l=2:CifL_Rzy_Mku"
+scrape(text, "Stockholms län", "Hotell, restaurang, storhushåll", "Pizzabagare m.fl.")
