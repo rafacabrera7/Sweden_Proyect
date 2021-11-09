@@ -5,7 +5,7 @@
 -- Dumped from database version 12.8 (Ubuntu 12.8-1.pgdg20.04+1)
 -- Dumped by pg_dump version 14.0 (Ubuntu 14.0-1.pgdg20.04+1)
 
--- Started on 2021-11-09 12:54:58 -05
+-- Started on 2021-11-09 14:05:32 -05
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -212,7 +212,7 @@ CREATE TABLE public.resume (
     id_customer_customer integer NOT NULL,
     id_cv integer NOT NULL,
     name_cv character varying(40) NOT NULL,
-    path_cv character varying(60)
+    path_cv character varying(150)
 );
 
 
@@ -414,7 +414,7 @@ ALTER TABLE ONLY public.job_offer
     ADD CONSTRAINT subcategory_fk FOREIGN KEY (id_subcategory_subcategory) REFERENCES public.subcategory(id_subcategory) MATCH FULL ON UPDATE CASCADE ON DELETE SET NULL;
 
 
--- Completed on 2021-11-09 12:54:58 -05
+-- Completed on 2021-11-09 14:05:32 -05
 
 --
 -- PostgreSQL database dump complete

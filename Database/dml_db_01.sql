@@ -5,7 +5,7 @@
 -- Dumped from database version 12.8 (Ubuntu 12.8-1.pgdg20.04+1)
 -- Dumped by pg_dump version 14.0 (Ubuntu 14.0-1.pgdg20.04+1)
 
--- Started on 2021-11-09 12:55:24 -05
+-- Started on 2021-11-09 14:05:57 -05
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -334,6 +334,12 @@ INSERT INTO public.body_message OVERRIDING SYSTEM VALUE VALUES (1, 4, 'Hi2, I am
 -- Data for Name: resume; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO public.resume OVERRIDING SYSTEM VALUE VALUES (1, 1, 'test1', NULL);
+INSERT INTO public.resume OVERRIDING SYSTEM VALUE VALUES (1, 3, 'test2', NULL);
+INSERT INTO public.resume OVERRIDING SYSTEM VALUE VALUES (1, 4, 'test2', NULL);
+INSERT INTO public.resume OVERRIDING SYSTEM VALUE VALUES (1, 2, 'test1', '/home/test');
+INSERT INTO public.resume OVERRIDING SYSTEM VALUE VALUES (1, 5, 'PyE_Taller1.pdf', NULL);
+INSERT INTO public.resume OVERRIDING SYSTEM VALUE VALUES (1, 6, 'Tarea_Taller_1.pdf', '/home/rafa/Desktop/Sweden_Proyect/Database/CVs/id_customer_1/id_cv_6/Tarea_Taller_1.pdf');
 
 
 --
@@ -387,7 +393,7 @@ SELECT pg_catalog.setval('public.main_sector_id_sector_seq', 7, true);
 -- Name: resume_id_cv_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.resume_id_cv_seq', 1, false);
+SELECT pg_catalog.setval('public.resume_id_cv_seq', 6, true);
 
 
 --
@@ -399,7 +405,7 @@ SELECT pg_catalog.setval('public.resume_id_cv_seq', 1, false);
 SELECT pg_catalog.setval('public.subcategory_id_subcategory_seq', 6, true);
 
 
--- Completed on 2021-11-09 12:55:24 -05
+-- Completed on 2021-11-09 14:05:57 -05
 
 --
 -- PostgreSQL database dump complete
