@@ -430,6 +430,3 @@ if (document.readyState !== 'loading') {
     Initialize();
   });
 }
-
-
-

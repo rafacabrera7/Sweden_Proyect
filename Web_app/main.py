@@ -1,4 +1,7 @@
 # perform pip install fastapi[all]
+# pip install typing
+# pip install pydantic
+
 from fastapi import FastAPI, File, UploadFile
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
@@ -71,16 +74,17 @@ async def root():
 #     return response
 
 
-@app.post("/scrape/")
+@app.get("/scrape/")
 async def ScrapeRequest(
-        city: str = "", main_category: str = "",
-        subcategory: str = "", url=""):
+        city: str , main_category: str,
+        subcategory: str, url:str):
     print(city)
     print(main_category)
     print(subcategory)
     print(url)
+    t = "finished"
     t = scrape(url, city, main_category, subcategory)
-    return {"success": True, "msg": "Good"}
+    return {"success": True, "msg": t}
 
 
 @app.post("/insert_client")
@@ -243,8 +247,10 @@ async def uploadCV(
 async def company_report(
     client_id: int,
 ):
-    cv1 = {"id_cv": "1111", "cv_name": "coolcv.pdf?"}
-    cv2 = {"id_cv": "2222", "cv_name": "coolercv.pdf?"}
+    t_cvs = get_cv_report(client_id)
+    ls_cvs = []
+    for c in t_cvs:
+        dic_cv = {"id_cv": c[0], "cv_name": c[1]}
+        ls_cvs.append(dic_cv)
 
-    cvs = [cv1, cv2]
-    return {"success": True, "cvs": cvs}
+    return {"success": True, "cvs": ls_cvs}
